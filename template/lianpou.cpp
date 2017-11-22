@@ -150,7 +150,7 @@ int mquery(int l, int r, tree *t, int ql, int qr) {
 }
 
 int mquery(int u, int v) {
-	int ret = INT_MIN;
+	int ret = INT_MIN;	//！！千万注意此处的缺省值必须是最小值，否则分分钟WA穿还不知道为啥
 	//先让链头深的节点向上走
 	while(head_of_chain[u] != head_of_chain[v]) {
 		if(depth_of[head_of_chain[u]] < depth_of[head_of_chain[v]]) {
