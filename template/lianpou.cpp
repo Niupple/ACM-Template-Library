@@ -18,7 +18,7 @@
 
 using namespace std;
 
-//线段树节点
+//线段树节点！
 struct tree {
 	int s, m;
 	tree *ls, *rs;
