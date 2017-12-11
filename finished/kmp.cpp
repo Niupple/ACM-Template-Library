@@ -26,29 +26,28 @@ void readin() {
 	lep = strlen(pat);
 }
 
-void preprocess() {
+void preprocess() {	//这是用于预处理nxt数组的函数
 	for(int i = 1; i < lep; ++i) {
-		if(pat[i] == pat[nxt[i]]) {
-			nxt[i+1] = nxt[i]+1;
+		int j = nxt[i];
+		while(j && pat[j] != pat[i]) {	//先回跳fail
+			j = nxt[j];
+		}
+		if(pat[j] == pat[i]) {			//再尝试匹配
+			nxt[i+1] = j+1;
 		} else {
-			int j;
-			for(j = nxt[i]; j != 0 && pat[j] != pat[i]; j = nxt[j]);
-			if(pat[j] == pat[i]) {
-				nxt[i+1] = j+1;
-			} else {
-				nxt[i+1] = 0;
-			}
+			nxt[i+1] = 0;
 		}
 	}
 }
 
 void process() {
 	for(int i = 0, j = 0; i < let; ++i) {
-		while(j && pat[j] != txt[i]) {
+		while(j && pat[j] != txt[i]) {	//先回跳fail
 			j = nxt[j];
 		}
-		if(txt[i] == pat[j]) {
+		if(txt[i] == pat[j]) {			//再尝试匹配
 			if(++j == lep) {
+				//这里就是匹配，位置是i-lep+1（下标从0开始）
 				printf("MATCH at %d\n", i-lep+1);
 			}
 		}
