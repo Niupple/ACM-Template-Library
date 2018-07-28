@@ -63,13 +63,13 @@ void rotate(tree *x, tree *y) {
 	maintain(x);
 }
 
-//splay操作，将x旋转至顶
-void splay(tree *x) {
-	while(x != nil && x != root) {	//root是边界，nil是特判
+//splay操作，将x旋转至fat下方
+void splay(tree *x, tree *fat = nil) {
+	while(x != nil && x != root && x->father != fat) {
 		tree *y = x->father;
-		if(y == root) {			//不能双旋的结点，单旋
+		if(y->father == fat) {
 			rotate(x, y);
-		} else {				//双旋是splay树的复杂度保证
+		} else {
 			tree *z = y->father;
 			int c, d;
 			c = y->son[1] == x;
@@ -83,6 +83,23 @@ void splay(tree *x) {
 			}
 		}
 	}
+}
+
+//构造数，从l到r顺序构造
+tree *build(int l, int r, tree *fat) {
+	tree *t;
+	if(l <= r) {
+		t = new_tree();
+	} else {
+		return nil;
+	}
+	int m = (l+r)/2;
+	t->v = m;
+	t->son[0] = build(l, m-1, t);
+	t->son[1] = build(m+1, r, t);
+	t->size = t->son[0]->size+t->son[1]->size+1;
+	t->father = fat;
+	return t;
 }
 
 //插入操作
